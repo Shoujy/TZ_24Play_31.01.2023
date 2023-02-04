@@ -1,27 +1,37 @@
-using System;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
+    [SerializeField] private GameObject _playerBody;
+    [SerializeField] private GameObject _cubeHolder;
+
+    private bool _isGameOver;
+
     private float _moveBorder = 2.0f;
 
     private float _forwardSpeed = 10.0f;
     private float _slideSpeed = 4.0f;
 
+    private void Start()
+    {
+        _isGameOver = false;
+    }
+
     private void OnEnable()
     {
-        Actions.OnObstacleCollide += ShowPlayerPosition;
+        Actions.OnObstacleCollide += HaveAnyCubes;
     }
 
     private void OnDisable()
     {
-        Actions.OnObstacleCollide += ShowPlayerPosition;
+        Actions.OnObstacleCollide += HaveAnyCubes;
     }
 
     private void Update()
     {
+        if (_isGameOver) 
+            return;
+
          transform.Translate(0, 0, _forwardSpeed * Time.deltaTime);
 
         if (Input.GetMouseButton(0))
@@ -44,8 +54,13 @@ public class PlayerControler : MonoBehaviour
         }
     }
 
-    private void ShowPlayerPosition()
+    private void HaveAnyCubes()
     {
-        Debug.Log(transform.position);
+        var childCount = GameObject.Find("CubeHolder").transform.childCount;
+        if (childCount <= 0)
+        {
+            _isGameOver = true;
+            Actions.OnGameEnd?.Invoke();
+        }
     }
 }

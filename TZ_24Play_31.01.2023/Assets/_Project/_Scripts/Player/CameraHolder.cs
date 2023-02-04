@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -22,6 +23,11 @@ public class CameraHolder : MonoBehaviour
         TargetFollow();
     }
 
+    private void OnDestroy()
+    {
+        transform.DOKill();
+    }
+
     private void TargetFollow()
     {
         var currentPosition = transform.position;
@@ -31,22 +37,6 @@ public class CameraHolder : MonoBehaviour
 
     private void CameraShake()
     {
-        StartCoroutine(Shake(_shakeDuration));
-        
-    }
-
-    private IEnumerator Shake(float duration)
-    {
-        var initialRotation = transform.rotation;
-        float elapsedTime = 0f;
-        while (elapsedTime < duration)
-        {
-            float shakeAmount = Mathf.PerlinNoise(Time.time * 10.0f, 0f) * 3.0f;
-            transform.rotation = initialRotation * Quaternion.Euler(shakeAmount, 0, 0);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        Camera.main.transform.DOShakePosition(_shakeDuration);
     }
 }

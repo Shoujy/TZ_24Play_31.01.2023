@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBody : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _cubePickupParticle;
+    [SerializeField] private GameObject _collectCubeText;
     private Rigidbody _playerBodyRB;
 
     private void Awake()
@@ -25,7 +26,7 @@ public class PlayerBody : MonoBehaviour
     private void Jump()
     {
         Instantiate(_cubePickupParticle, transform.position, Quaternion.identity);
+        Instantiate(_collectCubeText, transform.position, Quaternion.identity);
         transform.Translate(0, 1, 0);
-        //Debug.Log("Jump!");
     }
 }

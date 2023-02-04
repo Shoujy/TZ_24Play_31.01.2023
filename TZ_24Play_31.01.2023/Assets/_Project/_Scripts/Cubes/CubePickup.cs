@@ -6,11 +6,9 @@ using System;
 public class CubePickup : MonoBehaviour
 {
     private Transform _parent;
-    private Rigidbody _cubeRB;
 
     private void Awake()
     {
-        _cubeRB = GetComponent<Rigidbody>();
         _parent = transform.parent;
     }
 
@@ -18,19 +16,10 @@ public class CubePickup : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
+            Debug.Log(collision.gameObject.name);
             var obstacleParent = collision.gameObject.transform.parent;
             collision.gameObject.layer = LayerMask.NameToLayer("ObstacleTuched");
-
-            for (int i = 0; i < obstacleParent.childCount; i++)
-            {
-                obstacleParent.GetChild(i).gameObject.layer = LayerMask.NameToLayer("ObstacleTuched");
-            }
-
-            
             _parent.parent = null;
-            //_cubeRB.isKinematic = true;
-
-            //Debug.Log("Collision Success!");
 
             Actions.OnObstacleCollide?.Invoke();
 
