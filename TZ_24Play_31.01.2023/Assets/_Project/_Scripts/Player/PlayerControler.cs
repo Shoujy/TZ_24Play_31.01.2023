@@ -34,17 +34,38 @@ public class PlayerControler : MonoBehaviour
 
          transform.Translate(0, 0, _forwardSpeed * Time.deltaTime);
 
+        /* For Editor Testing
         if (Input.GetMouseButton(0))
         {
-            Vector3 mousPosition = Input.mousePosition;
-            if (mousPosition.x < Screen.width / 2)
+            Vector3 mousePosition = Input.mousePosition;
+            if (mousePosition.x < Screen.width / 2)
             {
-                if(transform.position.x <= -_moveBorder)
+                if (transform.position.x <= -_moveBorder)
                     return;
 
                 transform.position -= transform.right * _slideSpeed * Time.deltaTime;
             }
-            else if (mousPosition.x > Screen.width / 2)
+            else if (mousePosition.x > Screen.width / 2)
+            {
+                if (transform.position.x >= _moveBorder)
+                    return;
+
+                transform.position += transform.right * _slideSpeed * Time.deltaTime;
+            }
+        }
+        */
+
+        if (Input.touchCount > 0)
+        {
+            Vector3 touchPosition = Input.GetTouch(0).position;
+            if (touchPosition.x < Screen.width / 2)
+            {
+                if (transform.position.x <= -_moveBorder)
+                    return;
+
+                transform.position -= transform.right * _slideSpeed * Time.deltaTime;
+            }
+            else if (touchPosition.x > Screen.width / 2)
             {
                 if (transform.position.x >= _moveBorder)
                     return;
