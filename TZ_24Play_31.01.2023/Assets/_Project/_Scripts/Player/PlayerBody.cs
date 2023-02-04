@@ -23,6 +23,15 @@ public class PlayerBody : MonoBehaviour
         Actions.OnCubePickup -= Jump;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Obstacle"))
+        {
+            transform.parent.GetComponent<PlayerControler>().enabled = false;
+            Actions.OnGameEnd?.Invoke();
+        }
+    }
+
     private void Jump()
     {
         Instantiate(_cubePickupParticle, transform.position, Quaternion.identity);

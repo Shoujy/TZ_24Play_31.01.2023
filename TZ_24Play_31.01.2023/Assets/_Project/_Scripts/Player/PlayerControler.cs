@@ -5,12 +5,12 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] private GameObject _playerBody;
     [SerializeField] private GameObject _cubeHolder;
 
-    private bool _isGameOver;
-
     private float _moveBorder = 2.0f;
 
     private float _forwardSpeed = 10.0f;
     private float _slideSpeed = 4.0f;
+
+    private bool _isGameOver;
 
     private void Start()
     {
